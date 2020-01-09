@@ -4,6 +4,9 @@ const axios = require('axios');
 
 module.exports = (pool) => {
 
+    /*
+        ROUTER FOR POSTING MOVIE SEARCH FROM USER
+    */
     router.post('/', function(req, res) {
         let nama = req.body.nama;
         let email = req.body.alamat_email;
@@ -95,6 +98,65 @@ module.exports = (pool) => {
             })
         }
     });
+
+    /*
+        ROUTER FOR SEARCH MOVIE POSTING BASED ON PARAMS
+    */
+    router.get('/', function (req,res) {
+        let nama = req.query.nama_pencari;
+        let judul = req.query.judul_film;
+        let date_from = req.query.date_from;
+        let date_to = req.query.date_to;
+
+        // Build string conditional in WHERE clause for SELECT Query
+        let stringConditional = '';
+        if (nama) {
+            stringConditional += `nama_pencari LIKE '%${nama}%'`;
+        }
+        if (judul) {
+            if (stringConditional != "") {
+                stringConditional += ' AND ';
+            }
+            stringConditional += `judul_film LIKE '%${judul}%'`;
+        }
+        if (date_from && date_to) {
+            if (stringConditional != "") {
+                stringConditional += ' AND ';
+            }
+            stringConditional += `((tanggal_pencarian >= '${date_from}') AND (tanggal_pencarian <= '${date_to}'))`;
+        }
+
+        // Build Query SQL for SELECT query
+        if (stringConditional == "") {
+            res.status(400).json({error:'You should put minimum one query parameter'});
+        } else {
+            let sql = `SELECT * FROM movie WHERE ${stringConditional}`;
+            pool.query(sql, function (error,response) {
+                if (error) {
+                    res.status(400).json({error});
+                } else {
+                    let jsonObjectResponses = [];
+                    for (let i=0;i<response.rows.length;i++) {
+                        jsonObjectResponses.push({
+                            nama_pencari : response.rows[i].nama_pencari,
+                            email_pencari : response.rows[i].alamat_email,
+                            handphone_pencari : response.rows[i].nomor_hp,
+                            tanggal_pencarian : response.rows[i].tanggal_pencarian,
+                            judul_film : response.rows[i].judul_film,
+                            poster : response.rows[i].poster,
+                            tanggal_rilis : response.rows[i].tanggal_rilis,
+                            durasi : response.rows[i].durasi,
+                            genre : response.rows[i].genre,
+                            aktor : response.rows[i].aktor,
+                            IMDB_rating : response.rows[i].imdb_rating,
+                            rumah_produksi : response.rows[i].rumah_produksi
+                        })
+                    }
+                    res.status(200).json(jsonObjectResponses);
+                }
+            })
+        }
+    })
 
     return router;
 }
