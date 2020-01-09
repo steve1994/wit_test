@@ -85,7 +85,7 @@ module.exports = (pool) => {
                         if (error) {
                             res.status(400).json({error})
                         } else {
-                            res.status(200).json(jsonObjectResponses);
+                            res.status(201).json(jsonObjectResponses);
                         }
                     })
                 }))
