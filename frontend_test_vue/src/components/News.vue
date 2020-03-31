@@ -15,10 +15,9 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-md-3">
-                                            <img :src="`${news.image}`" :style="{width:'100%'}" />
+                                        <div class="col-md-4" :style="{backgroundImage:`url(${news.image})`, backgroundSize:'cover'}">
                                         </div>
-                                        <div class="col-md-9">
+                                        <div class="col-md-8">
                                             <div class="card-body">
                                                 <div class="news-content" :style="{textAlign:'left'}">
                                                     <h2><router-link :to="`/detail/${news.id_artikel}`">{{news.judul_artikel}}</router-link></h2>
