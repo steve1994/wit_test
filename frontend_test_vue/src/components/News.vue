@@ -20,13 +20,13 @@
                                         </div>
                                         <div class="col-md-9">
                                             <div class="card-body">
-                                                <div class="news-content">
-                                                    <router-link :to="`/detail/${news.id_artikel}`"><h2>{{news.judul_artikel}}</h2></router-link>
+                                                <div class="news-content" :style="{textAlign:'left'}">
+                                                    <h2><router-link :to="`/detail/${news.id_artikel}`">{{news.judul_artikel}}</router-link></h2>
                                                     <div v-html="`${news.summary}`">
                                                     </div>
                                                 </div>
                                                 <div class="news-footer">
-                                                <div class="news-author">
+                                                <div class="news-author" :style="{textAlign:'left'}">
                                                     <ul class="list-inline list-unstyled">
                                                         <li class="list-inline-item text-secondary">
                                                             <i class="fa fa-user"></i>

@@ -14,11 +14,11 @@
                                   <div class="news-cats">
                                       <ul class="list-unstyled list-inline mb-1">
                                            <li class="list-inline-item">
-                                                  <i class="fa fa-folder-o text-danger"></i>
+                                                  <i class="fa fa-folder text-danger"></i>
                                                   <a href="#"><small>{{newsDetail.creator}}</small> </a>
                                           </li>
                                            <li class="list-inline-item">
-                                                  <i class="fa fa-folder-o text-danger"></i>
+                                                  <i class="fa fa-folder text-danger"></i>
                                                   <a href="#"><small>{{displayFormattedDate(newsDetail.created_at)}}</small></a>
                                           </li>
                                       </ul>
@@ -27,7 +27,7 @@
                                   <div class="news-image">
                                       <img :src="`${newsDetail.image}`" />
                                   </div>
-                                  <div class="news-content">
+                                  <div class="news-content" :style="{textAlign:'left'}">
                                       <br />
                                       <div v-html="`${newsDetail.isi_artikel}`">
                                       </div>
