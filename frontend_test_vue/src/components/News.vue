@@ -80,27 +80,26 @@
                 limit : 6
             };
         },
-        updated: function() {
-            let urlFetchData = `http://13.250.52.196/artikel?layout_type=list_layout&media_type=artikel_media&page=${this.page}&limit=${this.limit}`;
-            fetch(urlFetchData)
-            .then(response => response.json())
-            .then(response => {
-                this.listNews = response.data;
-            })
-            .catch(error => {console.log(error)})
-        },
         mounted: function() {
-            let urlFetchData = `http://13.250.52.196/artikel?layout_type=list_layout&media_type=artikel_media&page=${this.page}&limit=${this.limit}`;
-            fetch(urlFetchData)
-            .then(response => response.json())
-            .then(response => {
-                this.listNews = response.data;
-            })
-            .catch(error => {console.log(error)})
+            this.reloadContentData();
+        },
+        watch : {
+            page : function() {
+                this.reloadContentData();
+            }
         },
         methods: {
             displayFormattedDate : function (date) {
                 return moment(date).format("D-MMMM-YYYY hh:mm:ss");
+            },
+            reloadContentData : function() {
+                let urlFetchData = `http://13.250.52.196/artikel?layout_type=list_layout&media_type=artikel_media&page=${this.page}&limit=${this.limit}`;
+                fetch(urlFetchData)
+                .then(response => response.json())
+                .then(response => {
+                    this.listNews = response.data;
+                })
+                .catch(error => {console.log(error)})
             },
             handlePreviousPage : function () {
                 if (this.page > 1) {
